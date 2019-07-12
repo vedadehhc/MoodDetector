@@ -168,6 +168,8 @@ In the future, I hope to improve the accuracy of the Classifier by providing add
 ## Acknowledgements
 I would like to thank my mentor Faizon Zaman for his guidance and assistance on this project.
 
+## GitHub
+You can find my code for this project on [my GitHub repository](https://github.com/vedadehhc/MoodDetector), with all code available beginning July 12th, 2019.
 
   [1]: https://community.wolfram.com//c/portal/getImageAttachment?filename=featureSpacePlotNoLabel.png&userId=1724789
   [2]: https://community.wolfram.com//c/portal/getImageAttachment?filename=CMP1.png&userId=1724789
