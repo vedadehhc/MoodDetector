@@ -1,55 +1,5 @@
 This is a sample student repository for the Wolfram Summer School, you should clone or fork this repository to get started.
 
-## GETTING STARTED
-
-### Create a GitHub account
-https://github.com/join
-
-### Create a repo to submit your work
-fork this repo, clone local copy, and push your updates to GitHub.com (see below for more details)
-
-### Give your instructor write permissions
-you need to give write permission to that repo to your tutor and to @WolframSummerSchoolProjects. Additionally please give write permissions to @kylekeane and @swedewhite for organizational purposes (you can revoke these at the end of school).
-
-## CONTENT
-
-### "Final Project" folder
-the place to submit your entire final project, including draft work if you want. There are templates and instructions in the subdirectories described in the readme.md of the "Final Project" folder.
-
-### "Homework" folder
-the place to submit your homework assignment (computational essay). There are templates and instructions in the subdirectories described in the readme.md of the "Homework" folder.
-
-### "Contributions" folder
-the place to store extra work products such as draft submissions to the data repo, function repo, neural net repo, and notebook archive. Follow the conventions described in the readme.md of that directory. There are instructions in the readme.md of the "Contributions" folder.
-
-### "Wolfram Community Post" folder
-the place to save versions of your community post so you can collaborate with your mentor if needed. There are instructions in the readme.md of the "Wolfram Community Post" folder.
-
-## MORE INFO ABOUT USING GITHUB
-
-### Download and install a Git UI
-*On OSX / Wndows*:  
-Download and install github desktop:  
-https://desktop.github.com  
-
-*On Ubuntu*:  
-Download and install git kraken:  
-https://www.gitkraken.com  
-Login and authenticate with GitHub  
-https://support.gitkraken.com/integrations/github
-
-### Install command line utility (optional)
-https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-
-### Clone the repo locally
-by clicking on the button CLONE OR DOWNLOAD and then to OPEN IN DESKTOP
-
-### Edit your files locally
-work on your computer and push to the cloud when you are ready to save your work
-
-### Write/edit readme files using MarkDown
-a nice cheatsheet can be found here: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-the readme should contain:
-1. what your project is about
-2. how to run your code
-3. examples, code documentation, etc
+## Mood Detection in Human Speech
+### Abstract
+We designed a system which is capable of detecting mood in human speech. Specifically, the system can be trained on a single user's voice given samples of emotional speech labeled as being angry, happy, or sad. The system is then able to classify future audio clips of the user's speech as having one of these three moods. The system first preprocesses audio clips to reduce noise, and allow for easier analysis of the audio data. Then, it extracts and analyzes features of the training data which are used to build a Classifier Function in the Wolfram Language. The analyzed features include amplitude, fundamental frequency, word rate, formants, and pausing in the audio clips. After the Classifier Function is constructed, it is tested on more preprocessed speech clips from the same speaker. We implemented many different methods for the Classifier Function and compared their accuracies to find the optimal Classifier. We found that Logistic Regression achieved the greatest accuracy. We also found that the Classifier is able to correctly classify the clips into the three moods to a great degree of accuracy, averaging 93%, even when the statement content did not match the mood of the voice.
