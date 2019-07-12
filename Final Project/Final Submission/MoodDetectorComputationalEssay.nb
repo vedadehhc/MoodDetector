@@ -1,0 +1,311 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     12030,        303]
+NotebookOptionsPosition[      9674,        252]
+NotebookOutlinePosition[     10514,        280]
+CellTagsIndexPosition[     10471,        277]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Mood Detection in Human Speech", "Title",
+ CellChangeTimes->{{3.770055572438499*^9, 3.7700555729498453`*^9}, {
+   3.770055604008165*^9, 3.7700556066618843`*^9}, 
+   3.7719265613227205`*^9},ExpressionUUID->"49ab34ee-bfd5-49f5-beef-\
+400d3cc456dd"],
+
+Cell[TextData[StyleBox["Dev Chheda", "Subtitle"]], "Text",
+ CellChangeTimes->{{3.549624168509506*^9, 3.549624171985794*^9}, {
+  3.549624508772977*^9, 3.549624510775043*^9}, {3.5498187159613867`*^9, 
+  3.5498187170087957`*^9}, {3.549819049020514*^9, 3.5498190533440437`*^9}, {
+  3.77005561844785*^9, 3.7700556489651537`*^9}, {3.7719265634072504`*^9, 
+  3.771926564702177*^9}},ExpressionUUID->"94536f76-3fd2-4bf6-b228-\
+fa93ec9acae9"],
+
+Cell[TextData[StyleBox["Mentor: Faizon Zaman ", "Subtitle"]], "Text",
+ CellChangeTimes->{{3.549624515773694*^9, 3.5496245246892014`*^9}, {
+  3.5498187208956137`*^9, 3.5498187221413403`*^9}, {3.5498190558319674`*^9, 
+  3.54981906151682*^9}, {3.770055624686027*^9, 3.770055659820487*^9}, {
+  3.7719265673391275`*^9, 
+  3.7719265727821956`*^9}},ExpressionUUID->"b70c649b-a958-4202-9f22-\
+238ea1f9c7d4"],
+
+Cell[CellGroupData[{
+
+Cell["Abstract", "Section",
+ CellChangeTimes->{{3.7719266481734962`*^9, 
+  3.7719266496240377`*^9}},ExpressionUUID->"18366f5a-cd89-4074-97a3-\
+84ed6e1526a4"],
+
+Cell["\<\
+We designed a system which is capable of detecting mood in human speech. \
+Specifically, the system can be trained on a single user\[CloseCurlyQuote]s \
+voice given samples of emotional speech labeled as being angry, happy, or \
+sad. The system is then able to classify future audio clips of the user\
+\[CloseCurlyQuote]s speech as having one of these three moods. The system \
+first preprocesses audio clips to reduce noise, and allow for easier analysis \
+of the audio data. Then, it extracts and analyzes features of the training \
+data which are used to build a Classifier Function in the Wolfram Language. \
+The analyzed features include amplitude, fundamental frequency, word rate, \
+formants, and pausing in the audio clips. After the Classifier Function is \
+constructed, it is tested on more preprocessed speech clips from the same \
+speaker. We implemented many different methods for the Classifier Function \
+and compared their accuracies to find the optimal Classifier. We found that \
+Logistic Regression achieved the greatest accuracy. We also found that the \
+Classifier is able to correctly classify the clips into the three moods to a \
+great degree of accuracy, averaging 93%, even when the statement content did \
+not match the mood of the voice.\
+\>", "Text",
+ CellChangeTimes->{{3.7719266520311604`*^9, 3.77192668569232*^9}, {
+  3.77192712980364*^9, 3.771927146985469*^9}, {3.771927178224145*^9, 
+  3.7719271930095606`*^9}, {3.7719272437513294`*^9, 
+  3.77192739529862*^9}},ExpressionUUID->"6c9db11a-058f-485c-9604-\
+97b77c06401b"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section",
+ CellChangeTimes->{{3.77192695867432*^9, 
+  3.771926959994167*^9}},ExpressionUUID->"370d327a-0dfb-4a9a-8004-\
+d4d659851f0e"],
+
+Cell["Mood detection in human speech is the process of ", "Text",
+ CellChangeTimes->{{3.771927404326542*^9, 3.771927409056184*^9}, {
+  3.771927443452214*^9, 
+  3.771927451049938*^9}},ExpressionUUID->"7262428b-8c27-4b5b-b9cf-\
+db5aa172022e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Data Collection", "Section",
+ CellChangeTimes->{{3.7719267707316337`*^9, 
+  3.7719267736578264`*^9}},ExpressionUUID->"facfb9c2-fc9b-461e-9ff8-\
+17a0547ee832"],
+
+Cell[TextData[{
+ "We recorded ten training statements for each mood, and imported them into \
+Mathematica. These data are currently available on ",
+ ButtonBox["the project GitHub repository",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["https://github.com/vedadehhc/MoodDetector"], None},
+  ButtonNote->"https://github.com/vedadehhc/MoodDetector"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.771926778961565*^9, 3.7719268876494684`*^9}, {
+  3.7719279568615956`*^9, 3.7719279668467093`*^9}, {3.7719280125334063`*^9, 
+  3.771928034680969*^9}},ExpressionUUID->"849bbcdb-5244-4a48-ba44-\
+f7d62ea4cc94"],
+
+Cell["\<\
+Import training data for each mood from the project GitHub repository\
+\>", "CodeText",
+ CellChangeTimes->{{3.77192693680534*^9, 3.771926954148628*^9}, {
+  3.771927770813962*^9, 
+  3.771927783875495*^9}},ExpressionUUID->"86a423f7-0482-46e3-b9f5-\
+71c1da80299e"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"angryTrainingClips", " ", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<https://github.com/vedadehhc/MoodDetector/raw/master/AudioData/\
+TrainingData/angry\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<.wav\>\""}], "]"}], 
+     ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", " ", "10"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"happyTrainingClips", " ", "=", " ", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<https://github.com/vedadehhc/MoodDetector/raw/master/AudioData/\
+TrainingData/happy\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<.wav\>\""}], "]"}], 
+     ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", " ", "10"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"sadTrainingClips", " ", "=", " ", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<https://github.com/vedadehhc/MoodDetector/raw/master/AudioData/\
+TrainingData/sad\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<.wav\>\""}], "]"}], 
+     ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", " ", "10"}], "}"}]}], "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.771927801392785*^9, 3.7719278221112604`*^9}, {
+  3.771927854266939*^9, 3.771927871221167*^9}, {3.7719279013922167`*^9, 
+  3.771927920145094*^9}, {3.7719281307672853`*^9, 
+  3.7719281324077225`*^9}},ExpressionUUID->"0e1a2674-9e32-4c43-93f2-\
+026204775142"],
+
+Cell[TextData[{
+ "We also recorded ten different testing clips for each mood. These data are \
+also available on ",
+ ButtonBox["the project GitHub repository",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["https://github.com/vedadehhc/MoodDetector"], None},
+  ButtonNote->"https://github.com/vedadehhc/MoodDetector"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.771927922950034*^9, 3.7719279516378803`*^9}, {
+  3.771928068252638*^9, 
+  3.7719280774779654`*^9}},ExpressionUUID->"55b47152-a286-4e6b-9048-\
+156ee8bab450"],
+
+Cell["\<\
+Import testing data for each mood from the project GitHub repository\
+\>", "CodeText",
+ CellChangeTimes->{{3.771928081617671*^9, 
+  3.771928093777776*^9}},ExpressionUUID->"eb53d33a-14b2-43f1-8e9c-\
+c41b1b47fce9"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"angryTestingClips", " ", "=", "  ", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<https://github.com/vedadehhc/MoodDetector/raw/master/AudioData/\
+TestingData/Regular/a\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<.wav\>\""}], "]"}], 
+     ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", " ", "10"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"happyTestingClips", " ", "=", "  ", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<https://github.com/vedadehhc/MoodDetector/raw/master/AudioData/\
+TestingData/Regular/h\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<.wav\>\""}], "]"}], 
+     ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", " ", "10"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"sadTestingClips", " ", "=", "  ", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<https://github.com/vedadehhc/MoodDetector/raw/master/AudioData/\
+TestingData/Regular/s\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<.wav\>\""}], "]"}], 
+     ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", " ", "10"}], "}"}]}], "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.7719281163456945`*^9, 
+  3.771928153017112*^9}},ExpressionUUID->"63e16488-734b-4113-a888-\
+e2bdf0d5843a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Future Work", "Section",
+ CellChangeTimes->{{3.771927758610634*^9, 
+  3.7719277601411524`*^9}},ExpressionUUID->"951c39bd-a384-4f15-a54c-\
+3dce1203cdf1"],
+
+Cell["\<\
+In the future, we hope to improve the accuracy of the Classifier by providing \
+additional training data, and to test it further with additional testing \
+data. We also hope to expand the range of moods the the Classifier handles, \
+including moods such as fear, calmness, and excitement. This, of course, \
+would require the aforementioned additional data, and perhaps, more complex \
+structures for the Classifier Function. In the future we may also want to \
+experiment with multiple speakers, and determine whether classifiers for one \
+speaker\[CloseCurlyQuote]s moods can be used to determine those of another \
+speaker.\
+\>", "Text",
+ CellChangeTimes->{
+  3.7719277620334363`*^9},ExpressionUUID->"0ddb396f-752a-44b5-aaed-\
+40e10cc6e4a5"]
+}, Closed]]
+}, Open  ]]
+},
+WindowToolbars->"EditBar",
+WindowSize->{1536, 781},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+DockedCells->{
+  Cell[
+   TextData[{
+     StyleBox["  WOLFRAM ", 
+      RGBColor[0.97, 0.83, 0.35], FontFamily -> "Source Sans Pro", FontWeight -> 
+      Bold, FontSize -> 40], 
+     StyleBox["SUMMER SCHOOL", 
+      GrayLevel[1], FontFamily -> "Source Sans Pro", FontSize -> 40], 
+     StyleBox[" 2019", 
+      RGBColor[0.97, 0.83, 0.35], FontFamily -> "Source Sans Pro", FontSize -> 
+      40]}], CellFrameMargins -> 10, Background -> 
+   RGBColor[0.12, 0.14, 0.15]]},
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 252, 4, 96, "Title",ExpressionUUID->"49ab34ee-bfd5-49f5-beef-400d3cc456dd"],
+Cell[835, 28, 432, 6, 46, "Text",ExpressionUUID->"94536f76-3fd2-4bf6-b228-fa93ec9acae9"],
+Cell[1270, 36, 399, 6, 46, "Text",ExpressionUUID->"b70c649b-a958-4202-9f22-238ea1f9c7d4"],
+Cell[CellGroupData[{
+Cell[1694, 46, 157, 3, 67, "Section",ExpressionUUID->"18366f5a-cd89-4074-97a3-84ed6e1526a4"],
+Cell[1854, 51, 1562, 23, 144, "Text",ExpressionUUID->"6c9db11a-058f-485c-9604-97b77c06401b"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[3453, 79, 156, 3, 53, "Section",ExpressionUUID->"370d327a-0dfb-4a9a-8004-d4d659851f0e"],
+Cell[3612, 84, 240, 4, 34, "Text",ExpressionUUID->"7262428b-8c27-4b5b-b9cf-db5aa172022e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3889, 93, 164, 3, 67, "Section",ExpressionUUID->"facfb9c2-fc9b-461e-9ff8-17a0547ee832"],
+Cell[4056, 98, 600, 13, 34, "Text",ExpressionUUID->"849bbcdb-5244-4a48-ba44-f7d62ea4cc94"],
+Cell[4659, 113, 271, 6, 37, "CodeText",ExpressionUUID->"86a423f7-0482-46e3-b9f5-71c1da80299e"],
+Cell[4933, 121, 1573, 41, 87, "Code",ExpressionUUID->"0e1a2674-9e32-4c43-93f2-026204775142"],
+Cell[6509, 164, 518, 13, 34, "Text",ExpressionUUID->"55b47152-a286-4e6b-9048-156ee8bab450"],
+Cell[7030, 179, 222, 5, 37, "CodeText",ExpressionUUID->"eb53d33a-14b2-43f1-8e9c-c41b1b47fce9"],
+Cell[7255, 186, 1439, 39, 87, "Code",ExpressionUUID->"63e16488-734b-4113-a888-e2bdf0d5843a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8731, 230, 158, 3, 67, "Section",ExpressionUUID->"951c39bd-a384-4f15-a54c-3dce1203cdf1"],
+Cell[8892, 235, 754, 13, 78, "Text",ExpressionUUID->"0ddb396f-752a-44b5-aaed-40e10cc6e4a5"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
